@@ -1,0 +1,11 @@
+Django
+django-cors-headers
+djangorestframework
+google-genai>=1.63.0
+Pillow
+python-magic
+PyPDF2
+pydantic
+beautifulsoup4==4.12.3
+youtube-transcript-api==1.1.1
+requests
