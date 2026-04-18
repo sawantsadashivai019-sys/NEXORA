@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono&display=swap');
+
+:root {
+  /* --- Google Material 3 Inspired --- */
+
+  /* Radii - Very rounded */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+  /* Standard for containers */
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font-family: 'Inter', 'Google Sans', system-ui, -apple-system, sans-serif;
+}
+
+/* LIGHT THEME (Default for NotebookLM look) */
+:root[data-theme="light"] {
+  --color-background: #f0f4f9;
+  /* The signature light blue-grey */
+  --color-surface: #ffffff;
+  --color-surface-hover: #f1f4f8;
+  --color-border: #e1e3e1;
+  /* Outline variant */
+
+  --color-text-primary: #1f1f1f;
+  --color-text-secondary: #444746;
+
+  --color-primary: #0b57d0;
+  /* Google Blue */
+  --color-primary-hover: #0842a0;
+
+  /* Source Chips */
+  --color-accent: #c2e7ff;
+  /* Light Blue 100 */
+  --color-accent-text: #001d35;
+
+  --color-danger: #b3261e;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* DARK THEME (Matching Screenshot) */
+:root[data-theme="dark"] {
+  --color-background: #131314;
+  /* Main background */
+  --color-surface: #1e1f20;
+  /* Card background */
+  --color-surface-hover: #2d2e2f;
+  --color-border: #444746;
+
+  --color-text-primary: #e3e3e3;
+  --color-text-secondary: #c4c7c5;
+
+  --color-primary: #a8c7fa;
+  /* Light Blue */
+  --color-primary-hover: #d3e3fd;
+
+  --color-accent: #0f52ba;
+  /* Deep Blue for active states */
+  --color-accent-text: #ffffff;
+
+  --color-danger: #f2b8b5;
+
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+/* Default fallback */
+:root:not([data-theme]) {
+  --color-background: #f0f4f9;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f1f4f8;
+  --color-border: #e1e3e1;
+  --color-text-primary: #1f1f1f;
+  --color-text-secondary: #444746;
+  --color-primary: #0b57d0;
+  --color-primary-hover: #0842a0;
+  --color-accent: #c2e7ff;
+  --color-accent-text: #001d35;
+  --color-danger: #b3261e;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px 3px rgba(0, 0, 0, 0.05);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 99px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
+
+/* Utilities */
+.h-screen {
+  height: 100vh;
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* Drag Handle */
+.panel-handle {
+  width: 8px;
+  background: transparent;
+  transition: background 0.2s;
+  position: relative;
+  z-index: 50;
+}
+
+.panel-handle:hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 2px;
+  background: var(--color-primary);
+  opacity: 0.5;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Markdown / `react-markdown` rendering fixes --------------------------------- */
+/* Ensure nested lists and ordered-list markers are visible and inherit theme color.
+   This prevents UI styles from hiding numbers/bullets even when markup is correct. */
+.prose ol,
+.prose ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1.25rem; /* ensure sufficient indent for markers */
+}
+
+.prose ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+}
+
+.prose ul {
+  list-style-type: disc;
+  list-style-position: outside;
+}
+
+/* Make sure markers are readable in both light/dark by using the secondary text color */
+.prose ol li::marker,
+.prose ul li::marker {
+  color: var(--color-text-secondary);
+  opacity: 0.95;
+  font-weight: 600;
+}
+
+/* Preserve spacing for nested lists */
+.prose ol ol,
+.prose ol ul,
+.prose ul ol,
+.prose ul ul {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding-left: 0.75rem;
+}
+
+/* Defensive: if any global rule removed markers, force display */
+.prose ol,
+.prose ul {
+  -webkit-padding-start: 1.25rem !important;
+  list-style-image: none !important;
+}
